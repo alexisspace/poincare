@@ -291,12 +291,18 @@ GPIO_PinConfig gpioPinConfigs[] = {
     GPIOTiva_PJ_0 | GPIO_CFG_IN_PU | GPIO_CFG_IN_INT_RISING,
     /* EK_TM4C1294XL_USR_SW2 */
     GPIOTiva_PJ_1 | GPIO_CFG_IN_PU | GPIO_CFG_IN_INT_RISING,
+    // ADC_DRDY
+    GPIOTiva_PD_6 | GPIO_CFG_IN_PU | GPIO_CFG_IN_INT_RISING,
 
     /* Output pins */
     /* EK_TM4C1294XL_USR_D1 */
     GPIOTiva_PN_1 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
     /* EK_TM4C1294XL_USR_D2 */
     GPIOTiva_PN_0 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
+	// ADC_CS
+	GPIOTiva_PM_4 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
+	// ADC_RTS
+	GPIOTiva_PD_7 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_HIGH | GPIO_CFG_OUT_LOW,
 };
 
 /*
@@ -516,9 +522,10 @@ void EK_TM4C1294XL_initSDSPI(void)
 {
     /* SDSPI0 configuration */
     /* Enable the peripherals used by the SD Card */
+/*
     SysCtlPeripheralEnable(SYSCTL_PERIPH_SSI2);
 
-    /* Configure pad settings */
+    // Configure pad settings
     GPIOPadConfigSet(GPIO_PORTD_BASE,
                      GPIO_PIN_3 | GPIO_PIN_1,
                      GPIO_STRENGTH_4MA, GPIO_PIN_TYPE_STD);
@@ -534,7 +541,7 @@ void EK_TM4C1294XL_initSDSPI(void)
     GPIOPinConfigure(GPIO_PD3_SSI2CLK);
     GPIOPinConfigure(GPIO_PD0_SSI2XDAT1);
     GPIOPinConfigure(GPIO_PD1_SSI2XDAT0);
-
+*/
     /* SDSPI1 configuration */
     /* Enable the peripherals used by the SD Card */
     SysCtlPeripheralEnable(SYSCTL_PERIPH_SSI3);
@@ -602,6 +609,7 @@ const SPITivaDMA_HWAttrs spiTivaDMAHWAttrs[EK_TM4C1294XL_SPICOUNT] = {
         .rxChannelMappingFxnArg = UDMA_CH12_SSI2RX,
         .txChannelMappingFxnArg = UDMA_CH13_SSI2TX
     },
+/*
     {
         .baseAddr = SSI3_BASE,
         .intNum = INT_SSI3,
@@ -614,6 +622,7 @@ const SPITivaDMA_HWAttrs spiTivaDMAHWAttrs[EK_TM4C1294XL_SPICOUNT] = {
         .rxChannelMappingFxnArg = UDMA_CH14_SSI3RX,
         .txChannelMappingFxnArg = UDMA_CH15_SSI3TX
     }
+*/
 };
 
 const SPI_Config SPI_config[] = {
@@ -622,11 +631,13 @@ const SPI_Config SPI_config[] = {
         .object = &spiTivaDMAObjects[0],
         .hwAttrs = &spiTivaDMAHWAttrs[0]
     },
+/*
     {
         .fxnTablePtr = &SPITivaDMA_fxnTable,
         .object = &spiTivaDMAObjects[1],
         .hwAttrs = &spiTivaDMAHWAttrs[1]
     },
+*/
     {NULL, NULL, NULL}
 };
 
